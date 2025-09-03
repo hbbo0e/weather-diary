@@ -35,7 +35,7 @@ public class JdbcMemoRepository {
     return memo;
   }
 
-  public List<Memo> findAll(Memo memo){
+  public List<Memo> findAll(){
     String sql = "select * from memo";
     return jdbcTemplate.query(sql, memoRowMapper());
   }
