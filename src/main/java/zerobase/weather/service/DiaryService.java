@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -97,5 +98,13 @@ public class DiaryService {
     resultMap.put("icon", weatherData.get("icon"));
 
     return resultMap;
+  }
+
+  public List<Diary> readDiary(LocalDate date) {
+    return diaryRepository.findAllByDate(date);
+  }
+
+  public List<Diary> readDiaries(LocalDate startDate, LocalDate endDate) {
+    return diaryRepository.findAllByDateBetween(startDate, endDate);
   }
 }
