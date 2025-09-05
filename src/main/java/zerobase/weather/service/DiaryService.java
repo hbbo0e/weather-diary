@@ -39,22 +39,22 @@ public class DiaryService {
 
   @Transactional(isolation = Isolation.SERIALIZABLE)
   public void createDiary(LocalDate date, String text){
-    // open weather map 에서 날씨 데이터 가져오기
-    String weatherData = getWeatherString();
-
-    // 받아온 날씨 json 변환
-    Map<String, Object> parsedWeather = parseWeather(weatherData);
-
-    // 파싱된 데이터 ++ 일기 값 우리 db 에 넣기
+    DateWeather dateWeather = getDateWeather(date);
     Diary nowDiary = new Diary();
-    nowDiary.setWeather(parsedWeather.get("main").toString());
-    nowDiary.setIcon(parsedWeather.get("icon").toString());
-    nowDiary.setTemperature((Double) parsedWeather.get("temp"));
-    nowDiary.setText(text);
-    nowDiary.setDate(date);
 
+    nowDiary.setDateWeather(dateWeather);
+    nowDiary.setText(text);
     diaryRepository.save(nowDiary);
 
+  }
+
+  private DateWeather getDateWeather(LocalDate date) {
+    List<DateWeather> dateWeatherList = dateWeatherRepository.findAllByDate(date);
+    if(dateWeatherList.size() == 0){
+      return getWeatherFromApi();
+    }else{
+      return dateWeatherList.get(0);
+    }
   }
 
   private String getWeatherString(){
