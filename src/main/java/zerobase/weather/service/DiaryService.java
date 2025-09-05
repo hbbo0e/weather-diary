@@ -14,7 +14,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional; // javax - jakarta 로 하면 read only 옵션을 선택할 수 없음
 import zerobase.weather.domain.Diary;
 import zerobase.weather.repository.DiaryRepository;
 
@@ -30,6 +31,7 @@ public class DiaryService {
     this.diaryRepository = diaryRepository;
   }
 
+  @Transactional(isolation = Isolation.SERIALIZABLE)
   public void createDiary(LocalDate date, String text){
     // open weather map 에서 날씨 데이터 가져오기
     String weatherData = getWeatherString();
@@ -101,6 +103,7 @@ public class DiaryService {
     return resultMap;
   }
 
+  @Transactional(readOnly = true)
   public List<Diary> readDiary(LocalDate date) {
     return diaryRepository.findAllByDate(date);
   }
