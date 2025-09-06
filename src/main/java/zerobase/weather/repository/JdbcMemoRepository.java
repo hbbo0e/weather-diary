@@ -29,10 +29,9 @@ public class JdbcMemoRepository {
     );
   }
 
-  public Memo save(Memo memo){
+  public void save(Memo memo){
     String sql = "insert into memo values(?, ?)";
     jdbcTemplate.update(sql, memo.getId(), memo.getText());
-    return memo;
   }
 
   public List<Memo> findAll(){
