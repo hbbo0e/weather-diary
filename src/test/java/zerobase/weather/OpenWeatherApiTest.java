@@ -5,9 +5,10 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.BDDMockito.given;
 
 public class OpenWeatherApiTest {
-    @Test
-    public void mo(){
-        given()
-
-    }
+  // 스켈레톤 코드
+//    @Test
+//    public void mo(){
+//        given()
+//
+//    }
 }
